@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 import joblib
 import os
+from datetime import datetime
 
 df = pd.read_csv('data/ice_cream_sales_dataset.csv')
 
@@ -28,3 +29,22 @@ model_filename = "models/linear_model.pkl"
 joblib.dump(model, model_filename)
 
 print(f"Model saved as: {model_filename}")
+
+os.makedirs('metrics', exist_ok=True)
+metrics_file = "metrics/history.csv"
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+new_metrics = pd.DataFrame({
+    'timestamp': [timestamp],
+    'mse': [mse],
+    'r2_score': [r2]
+})
+
+if os.path.exists(metrics_file):
+    existing_metrics = pd.read_csv(metrics_file)
+    combined_metrics = pd.concat([existing_metrics, new_metrics], ignore_index=True)
+else:
+    combined_metrics = new_metrics
+
+combined_metrics.to_csv(metrics_file, index=False)
+print(f"Metrics logged to: {metrics_file}")
