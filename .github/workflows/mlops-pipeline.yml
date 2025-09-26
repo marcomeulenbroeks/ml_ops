@@ -6,6 +6,9 @@ on:
       - 'data/**'       # trigger only when data changes
       - 'src/**'        # trigger only when source code changes
 
+permissions:
+  contents: write
+
 jobs:
   retrain:
     runs-on: ubuntu-latest
@@ -13,6 +16,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -29,8 +34,8 @@ jobs:
 
       - name: Commit metrics to repository
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "marcomeulenbroeks@users.noreply.github.com"
+          git config --local user.name "marcomeulenbroeks"
           git add metrics/history.csv
           git diff --staged --quiet || git commit -m "Update model metrics - Run ${{ github.run_number }}"
           git push
