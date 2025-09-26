@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'data/**'       # trigger only when data changes
+      - 'src/**'        # trigger only when source code changes
 
 jobs:
   retrain:
