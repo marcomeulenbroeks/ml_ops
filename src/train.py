@@ -3,7 +3,6 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 import joblib
-from datetime import datetime
 import os
 
 df = pd.read_csv('data/ice_cream_sales_dataset.csv')
@@ -25,8 +24,7 @@ print(f"MSE: {mse:.2f}")
 print(f"R²: {r2:.2f}")
 
 os.makedirs('models', exist_ok=True)
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-model_filename = f"models/linear_model_{timestamp}.pkl"
+model_filename = "models/linear_model.pkl"
 joblib.dump(model, model_filename)
 
 print(f"Model saved as: {model_filename}")
